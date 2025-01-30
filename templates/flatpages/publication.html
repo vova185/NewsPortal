@@ -1,0 +1,16 @@
+{% extends 'flatpages/default.html' %}
+
+{% load custom_filters %}
+
+{% block title %}
+Publication
+{% endblock title %}
+
+{% block content %}
+<h4>Заголовок:</h4>
+<h3>{{ publication.title|censor }}</h3>
+<h4>Текст:</h4>
+<h3>{{ publication.content|censor }}</h3>
+<h4>Дата загрузки:</h4>
+<h3>{{ publication.time_create|date:'d M Y' }}</h3>
+{% endblock content %}
