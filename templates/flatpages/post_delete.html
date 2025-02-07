@@ -1,0 +1,15 @@
+{% extends 'flatpages/default.html' %}
+
+{% block content %}
+<h1>Удаление публикации</h1>
+<hr>
+{% if valid_genre %}
+<form action="" method="post">
+    {% csrf_token %}
+    <p>Удаляем "{{ object.title }}"?</p>
+    <input type="submit" value="Delete" />
+</form>
+{% else %}
+    <h3>Адрес не соответствует типу публикации</h3>
+{% endif %}
+{% endblock content %}
