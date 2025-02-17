@@ -5,6 +5,8 @@ from django.urls import reverse_lazy
 from django.views.generic import (
     ListView, DetailView, CreateView, UpdateView, DeleteView
 )
+from django.views.generic.edit import CreateView
+from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
 from .models import Post
 from .filters import PostFilter
 from .forms import PostForm
@@ -40,6 +42,7 @@ class NewsDetail(DetailView):
     pk_url_kwarg = 'id'
 
 class PostCreate(CreateView):
+    permission_required = 'news.add_post'
     form_class = PostForm
     model = Post
     template_name = 'flatpages/post_create.html'
@@ -50,7 +53,8 @@ class PostCreate(CreateView):
             post.genre = 'AR'
         return super().form_valid(form)
 
-class PostUpdate(UpdateView):
+class PostUpdate(LoginRequiredMixin, UpdateView):
+    permission_required = 'news.change_post'
     form_class = PostForm
     model = Post
     template_name = 'flatpages/post_edit.html'

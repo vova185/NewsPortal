@@ -4,9 +4,13 @@
 
 <h1>Публикация</h1>
 <hr>
+{% if perms.news.add_post %}
 <form action = "" method ="post">
     {% csrf_token %}
     {{ form.as_p }}
     <input type = "submit" value = "Save"/>
 </form>
+{% else %}
+<h3>У Вас нет доступа к созданию публикаций</h3>
+{% endif %}
 {% endblock content %}
