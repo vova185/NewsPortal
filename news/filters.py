@@ -15,4 +15,5 @@ class PostFilter(FilterSet):
         fields = {
             'title': ['icontains'],
             'author__user__username': ['icontains'],
+            'categories__all_category': ['icontains']
         }

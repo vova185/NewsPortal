@@ -14,6 +14,8 @@ News
            <tr>
                <td>Заголовок</td>
                <td>|</td>
+               <td>Категория</td>
+               <td>|</td>
                <td>Дата публикации</td>
                <td>|</td>
                <td>Текст</td>
@@ -22,6 +24,12 @@ News
            {% for post in news %}
            <tr>
                <td><h4>{{ post.title|censor }}</h4></td>
+               <td><h4>|</h4></td>
+               <td>
+                    {% for cat in post.categories.all %}
+                        <h4>{{ cat.all_category }}</h4>
+                    {% endfor %}
+               </td>
                <td><h4>|</h4></td>
                <td><h4>{{ post.time_create|date:'d M Y' }}</h4></td>>
                <td><h4>|</h4></td>

@@ -37,9 +37,10 @@ class Category(models.Model):
         (rest, 'отдых')
     ]
     all_category = models.CharField(max_length=3, choices=CATEGORIES, default=rest, unique=True)
+    subscribers = models.ManyToManyField(User, related_name='categories')
 
     def __str__(self):
-        return self.all_category.title()
+        return self.all_category
 
 class Post(models.Model):
     article = 'AR'

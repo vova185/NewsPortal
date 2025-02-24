@@ -13,4 +13,8 @@ Publication
 <h3>{{ publication.content|censor }}</h3>
 <h4>Дата загрузки:</h4>
 <h3>{{ publication.time_create|date:'d M Y' }}</h3>
+<h4>Категория:</h4>
+    {% for cat in publication.categories.all %}
+        <h3>{{ cat.all_category }}</h3>
+    {% endfor %}
 {% endblock content %}
