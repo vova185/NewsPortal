@@ -11,7 +11,9 @@ from .models import *
 from .filters import PostFilter
 from .forms import PostForm
 import datetime
+
 from django.views import View
+from .tasks import send_post_to_email_task, send_daily_post_to_email_task
 
 class NewsList(ListView):
     model = Post
@@ -110,3 +112,7 @@ class PostDelete(DeleteView):
                                  (self.request.path == f'/news/{post.id}/delete/' and post.genre == Post.news)
         return context
 
+class IndexView(View):
+    def get(self, request):
+        send_post_to_email_task.delay()
+        send_daily_post_to_email_task.delay()
