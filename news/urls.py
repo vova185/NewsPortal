@@ -15,6 +15,6 @@ path('news/<int:pk>/delete/', PostDelete.as_view(), name='news_delete'),
 path('articles/<int:pk>/delete/', PostDelete.as_view(), name='articles_delete'),
 path('categories/<int:pk>', CategoryListView.as_view(), name='category_list'),
 path('categories/<int:pk>/subscribe', subscribers, name='subscribe'),
-path('', IndexView.as_view()),
+path('', IndexView.as_view())
 ]
 

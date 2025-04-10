@@ -3,9 +3,9 @@ from django.shortcuts import render, get_object_or_404, redirect
 from django.urls import path
 from django.urls import reverse_lazy
 from django.views.generic import (
-    ListView, DetailView, CreateView, UpdateView, DeleteView
+    ListView, DetailView, CreateView, UpdateView, DeleteView, TemplateView
 )
-from django.views.generic.edit import CreateView
+
 from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
 from .models import *
 from .filters import PostFilter
@@ -73,6 +73,7 @@ class PostCreate(CreateView):
     form_class = PostForm
     model = Post
     template_name = 'flatpages/post_create.html'
+    success_url = reverse_lazy('post_list')
 
     def form_valid(self, form):
         post = form.save(commit=False)
@@ -85,6 +86,7 @@ class PostCreate(CreateView):
         if post_limit >= 3:
             return render(self.request, 'flatpages/post_limit.html', {'author': post.author})
         post.save()
+        # send_post_to_email_task.delay()
         return super().form_valid(form)
 
 class PostUpdate(LoginRequiredMixin, UpdateView):
@@ -112,7 +114,12 @@ class PostDelete(DeleteView):
                                  (self.request.path == f'/news/{post.id}/delete/' and post.genre == Post.news)
         return context
 
-class IndexView(View):
-    def get(self, request):
-        send_post_to_email_task.delay()
-        send_daily_post_to_email_task.delay()
+class IndexView(LoginRequiredMixin, TemplateView):
+    template_name = 'accounts/index.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['is_not_authors'] = not self.request.user.groups.filter(name='authors').exists()
+        return context
+
+

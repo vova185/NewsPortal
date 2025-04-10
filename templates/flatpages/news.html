@@ -12,18 +12,18 @@ News
 <hr>
        <table>
            <tr>
-               <td>Заголовок</td>
-               <td>|</td>
-               <td>Категория</td>
-               <td>|</td>
-               <td>Дата публикации</td>
-               <td>|</td>
-               <td>Текст</td>
+               <td><h3>Заголовок</h3></td>
+               <td><h3>|</h3></td>
+               <td><h3>Категория</h3></td>
+               <td><h3>|</h3></td>
+               <td><h3>Дата публикации</h3></td>
+               <td><h3>|</h3></td>
+               <td><h3>Текст</h3></td>
            </tr>
 
            {% for post in news %}
            <tr>
-               <td><h4>{{ post.title|censor }}</h4></td>
+               <td><h4>{{ post.title|censor|hide }}</h4></td>
                <td><h4>|</h4></td>
                <td>
                     {% for cat in post.categories.all %}
@@ -33,10 +33,11 @@ News
                <td><h4>|</h4></td>
                <td><h4>{{ post.time_create|date:'d M Y' }}</h4></td>>
                <td><h4>|</h4></td>
-               <td><h4>{{ post.content|truncatechars:20|censor }}</h4></td>
+               <td><h4>{{ post.content|truncatechars:50|censor|hide }}</h4></td>
            </tr>
            {% endfor %}
        </table>
+
         {% if page_obj.has_previous %}
        <a href="?page=1">1</a>
        {% if page_obj.previous_page_number != 1 %}
